@@ -86,13 +86,14 @@ gradlePlugin {
         }
     }
 }
-val githubRepository = System.getenv("GITHUB_REPOSITORY")
+val mavenPackageRegistryUri = System.getenv("MAVEN_PACKAGE_REGISTRY_URL")
+val publicationName = "gpr"
 publishing {
     repositories {
-        if (null != githubRepository) {
-            println(githubRepository)
+        if (null != mavenPackageRegistryUri) {
+            println(mavenPackageRegistryUri)
             maven {
-                url = URI(githubRepository)
+                url = URI(mavenPackageRegistryUri)
                 credentials {
                     username = System.getenv("USERNAME")
                     password = System.getenv("TOKEN")
@@ -103,14 +104,14 @@ publishing {
         }
     }
     publications {
-        create<MavenPublication>("gpr") {
+        create<MavenPublication>(publicationName) {
             from(components["java"])
         }
     }
 }
-if (null != githubRepository) {
+if (null != mavenPackageRegistryUri) {
 /*ignore*/
-    tasks.named<Task>("publishGprPublicationToMavenRepository") {
+    tasks.named<Task>("publish${publicationName}PublicationToMavenRepository") {
         enabled = false
     }
 }
