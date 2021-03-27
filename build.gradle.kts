@@ -86,7 +86,7 @@ gradlePlugin {
         }
     }
 }
-val mavenPackageRegistryUri = System.getenv("MAVEN_PACKAGE_REGISTRY_URL")
+val mavenPackageRegistryUri: String? = System.getenv("MAVEN_PACKAGE_REGISTRY_URL") + System.getenv("REPOSITORY_URL")
 val publicationName = "gpr"
 publishing {
     repositories {
@@ -111,13 +111,13 @@ publishing {
 }
 if (null != mavenPackageRegistryUri) {
 /*ignore*/
-    tasks.named<Task>("publish${publicationName}PublicationToMavenRepository") {
+    tasks.named<Task>("publish${publicationName[0].toUpperCase() + publicationName.substring(1)}PublicationToMavenRepository") {
         enabled = false
     }
 }
 
 fun getProjectVersion(): String {
-    val projectVersion = System.getenv("GITHUB_REF")
+    val projectVersion: String? = System.getenv("GITHUB_REF")
     return if (null == projectVersion) {
         "local-SNAPSHOT"
     } else {
