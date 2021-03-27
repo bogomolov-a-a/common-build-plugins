@@ -90,6 +90,7 @@ val githubRepository = System.getenv("GITHUB_REPOSITORY")
 publishing {
     repositories {
         if (null != githubRepository) {
+            println(githubRepository)
             maven {
                 url = URI(githubRepository)
                 credentials {
