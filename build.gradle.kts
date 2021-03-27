@@ -109,7 +109,7 @@ publishing {
 }
 if (null != githubRepository) {
 /*ignore*/
-    tasks.getByName("publishGprPublicationToMavenRepository") {
+    tasks.named<Task>("publishGprPublicationToMavenRepository") {
         enabled = false
     }
 }
