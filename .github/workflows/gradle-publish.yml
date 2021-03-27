@@ -6,7 +6,6 @@ name: Gradle Package
 on:
   push:
     tags: [ v* ]
-    branches: [ main, feature-* ]
 
 jobs:
   build:
