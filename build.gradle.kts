@@ -10,12 +10,22 @@ plugins {
 }
 group = "org.artembogomolova.common"
 
-val projectVersion: String by project
-if (!project.hasProperty("projectVersion")) {
-    throw IllegalStateException("version not specified")
-}
-version = projectVersion
+var projectVersion = System.getenv("GITHUB_REF")
 
+version = if (null == projectVersion) {
+    "local-SNAPSHOT"
+} else {
+    val TAG_PREFIX = "refs/tags/v"
+    val tagIndex = projectVersion.indexOf(TAG_PREFIX)
+    if (tagIndex > -1) {
+        projectVersion.substring(tagIndex + TAG_PREFIX.length)
+    } else {
+        val HEADS_PREFIX = "refs/heads/"
+        val headsIndex = projectVersion.indexOf(HEADS_PREFIX)
+        projectVersion.substring(headsIndex + HEADS_PREFIX.length)
+    }
+}
+println("project version is $version")
 val kotlinVersion = "1.4.20"
 val springBootVersion = "2.4.2"
 val springDependencyManagementVersion = "1.0.11.RELEASE"
@@ -33,21 +43,21 @@ repositories {
 }
 plugins.apply(org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper::class.java)
 dependencies {
-    /*spring*/
+/*spring*/
     api("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
     api("io.spring.gradle:dependency-management-plugin:$springDependencyManagementVersion")
     api("io.github.classgraph:classgraph:$classGraphVersion")
     api("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
     api("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion")
     api("org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion")
-    /*quality*/
+/*quality*/
     api("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:$detektPluginVersion")
     api("gradle.plugin.com.github.spotbugs.snom:spotbugs-gradle-plugin:$spotbugsPluginVersion")
-    /*test reports*/
+/*test reports*/
     api("org.jacoco:org.jacoco.core:$jacocoVersion")
-    /*sonar*/
+/*sonar*/
     api("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$sonarPluginVersion")
-    /*documentation*/
+/*documentation*/
     api("org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion")
 }
 val compileKotlin: KotlinCompile by tasks
@@ -91,7 +101,7 @@ gradlePlugin {
         }
     }
 }
-val githubRepository: String = System.getenv("GITHUB_REPOSITORY")
+val githubRepository = System.getenv("GITHUB_REPOSITORY")
 publishing {
     repositories {
         if (null != githubRepository) {
@@ -112,7 +122,9 @@ publishing {
         }
     }
 }
+if (null != githubRepository) {
 /*ignore*/
-tasks.getByName("publishGprPublicationToMavenRepository") {
-    enabled = false
+    tasks.getByName("publishGprPublicationToMavenRepository") {
+        enabled = false
+    }
 }
