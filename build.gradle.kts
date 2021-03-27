@@ -129,7 +129,7 @@ fun getProjectVersion(): String {
             val HEADS_PREFIX = "refs/heads/"
             val headsIndex = projectVersion.indexOf(HEADS_PREFIX)
             /*branch-commit_sha*/
-            projectVersion.substring(headsIndex + HEADS_PREFIX.length)+System.getenv("GITHUB_SHA")
+            projectVersion.substring(headsIndex + HEADS_PREFIX.length)+"-"+System.getenv("GITHUB_SHA")
         }
     }
 
