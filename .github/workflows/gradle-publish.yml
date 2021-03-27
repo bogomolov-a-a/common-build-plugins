@@ -5,7 +5,8 @@ name: Gradle Package
 
 on:
   push:
-    tags: [v*]
+    tags: [ v* ]
+    branches: [ main, feature-* ]
 
 jobs:
   build:
@@ -13,19 +14,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK
-      uses: actions/setup-java@v1
-      with:
-        java-version: 15
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
-    - name: Build with Gradle and  Publish to GitHub Packages
-      run: ./gradlew build publish
-      env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+      # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
+      # the publishing section of your build.gradle
+      - name: Build with Gradle and  Publish to GitHub Packages
+        run: |
+        PROJECT_VERSION=${GITHUB_REF#refs/heads/}
+        if [ -z PROJECT_VERSION];
+        then
+          PROJECT_VERSION=${GITHUB_REF#refs/tags/v}
+        else
+          PROJECT_VERSION=PROJECT_VERSION"-SNAPSHOT"
+        fi
+        ./gradlew clean build publish
+        env:
+          USERNAME: ${{ github.actor }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+          GITHUB_REF: ${{ github.ref }}

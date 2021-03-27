@@ -9,13 +9,12 @@ plugins {
     id("maven-publish")
 }
 group = "org.artembogomolova.common"
-val projectVersion: String by project
 
-version = if (project.hasProperty("projectVersion")) {
-    projectVersion
-} else {
-    "1.0.0"
+val projectVersion: String by project
+if (!project.hasProperty("projectVersion")) {
+    throw IllegalStateException("version not specified")
 }
+version = projectVersion
 
 val kotlinVersion = "1.4.20"
 val springBootVersion = "2.4.2"
@@ -92,15 +91,19 @@ gradlePlugin {
         }
     }
 }
-val githubRepository: String =System.getenv("GITHUB_REPOSITORY")
+val githubRepository: String = System.getenv("GITHUB_REPOSITORY")
 publishing {
     repositories {
-        maven {
-            url = URI("https://maven.pkg.github.com/$githubRepository")
-            credentials {
-                username = System.getenv("USERNAME")
-                password = System.getenv("TOKEN")
+        if (null != githubRepository) {
+            maven {
+                url = URI(githubRepository)
+                credentials {
+                    username = System.getenv("USERNAME")
+                    password = System.getenv("TOKEN")
+                }
             }
+        } else {
+            mavenLocal()
         }
     }
     publications {
