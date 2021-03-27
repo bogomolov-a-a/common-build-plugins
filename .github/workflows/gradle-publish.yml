@@ -29,5 +29,5 @@ jobs:
         env:
           USERNAME: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
+          GITHUB_REPOSITORY: https://maven.pkg.github.com/${{ secrets.GITHUB_REPOSITORY }}
           GITHUB_REF: ${{ github.ref }}

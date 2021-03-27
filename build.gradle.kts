@@ -9,22 +9,7 @@ plugins {
     id("maven-publish")
 }
 group = "org.artembogomolova.common"
-
-var projectVersion = System.getenv("GITHUB_REF")
-
-version = if (null == projectVersion) {
-    "local-SNAPSHOT"
-} else {
-    val TAG_PREFIX = "refs/tags/v"
-    val tagIndex = projectVersion.indexOf(TAG_PREFIX)
-    if (tagIndex > -1) {
-        projectVersion.substring(tagIndex + TAG_PREFIX.length)
-    } else {
-        val HEADS_PREFIX = "refs/heads/"
-        val headsIndex = projectVersion.indexOf(HEADS_PREFIX)
-        projectVersion.substring(headsIndex + HEADS_PREFIX.length)
-    }
-}
+version = getProjectVersion()
 println("project version is $version")
 val kotlinVersion = "1.4.20"
 val springBootVersion = "2.4.2"
@@ -127,4 +112,22 @@ if (null != githubRepository) {
     tasks.getByName("publishGprPublicationToMavenRepository") {
         enabled = false
     }
+}
+
+fun getProjectVersion(): String {
+    val projectVersion = System.getenv("GITHUB_REF")
+    return if (null == projectVersion) {
+        "local-SNAPSHOT"
+    } else {
+        val TAG_PREFIX = "refs/tags/v"
+        val tagIndex = projectVersion.indexOf(TAG_PREFIX)
+        if (tagIndex > -1) {
+            projectVersion.substring(tagIndex + TAG_PREFIX.length)
+        } else {
+            val HEADS_PREFIX = "refs/heads/"
+            val headsIndex = projectVersion.indexOf(HEADS_PREFIX)
+            projectVersion.substring(headsIndex + HEADS_PREFIX.length)
+        }
+    }
+
 }
