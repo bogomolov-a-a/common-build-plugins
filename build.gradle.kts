@@ -86,7 +86,7 @@ gradlePlugin {
         }
     }
 }
-val mavenPackageRegistryUri: String? = System.getenv("MAVEN_PACKAGE_REGISTRY_URL") + System.getenv("REPOSITORY_URL")
+val mavenPackageRegistryUri: String? = System.getenv("MAVEN_PACKAGE_REGISTRY_URL") + System.getenv("GITHUB_REPOSITORY")
 val publicationName = "gpr"
 publishing {
     repositories {

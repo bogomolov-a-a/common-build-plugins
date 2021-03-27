@@ -6,6 +6,7 @@ name: Gradle Package
 on:
   push:
     tags: [ v* ]
+    branches: [ main, feature-* ]
 
 jobs:
   build:
@@ -28,5 +29,5 @@ jobs:
           USERNAME: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MAVEN_PACKAGE_REGISTRY_URL: https://maven.pkg.github.com/
-          REPOSITORY_URL: ${{ secrets.GITHUB_REPOSITORY }}
+          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
           GITHUB_REF: ${{ github.ref }}
