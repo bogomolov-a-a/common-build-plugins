@@ -36,7 +36,9 @@ open class BuildWithCoverage : ConventionTask() {
         verificationTasks.forEach {
             it.dependsOn.addAll(reportTasks)
         }
-        this.dependsOn.add(SonarQubeExtension.SONARQUBE_TASK_NAME)
+        if(project.tasks.findByPath(SonarQubeExtension.SONARQUBE_TASK_NAME)!=null) {
+            this.dependsOn.add(SonarQubeExtension.SONARQUBE_TASK_NAME)
+        }
     }
 
     @TaskAction
