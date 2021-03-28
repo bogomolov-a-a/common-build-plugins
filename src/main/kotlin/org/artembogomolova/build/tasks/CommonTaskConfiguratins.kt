@@ -58,7 +58,7 @@ open class BuildWithCoverage : ConventionTask() {
         }
     }
 
-    private fun isAllowSonarUse(): Boolean = dependsOn.add(SonarQubeExtension.SONARQUBE_TASK_NAME)
+    private fun isAllowSonarUse(): Boolean = project.tasks.findByName(SonarQubeExtension.SONARQUBE_TASK_NAME) != null
 
     @TaskAction
     fun execute() {
