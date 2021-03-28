@@ -73,12 +73,13 @@ gradlePlugin {
             id = COMMON_BASE_PLUGIN_ID
             displayName = "Common base plugin(with extern tool integration)"
             description = "Common base plugin(with extern tool integration)"
-            implementationClass = "org.artembogomolova.build.plugins.CommonBasePlugin"
+            implementationClass = "org.artembogomolova.build.plugins.CommonExternToolPlugin"
         }
 
         create(COMMON_BUILD_BASE_PLUGIN_ID) {
             id = COMMON_BUILD_BASE_PLUGIN_ID
             displayName = "Common base plugin(without extern tool integration)"
+            description = "Common base plugin(without extern tool integration)"
             implementationClass = "org.artembogomolova.build.plugins.CommonBuildWithoutExternToolPlugin"
         }
         create(CORE_SPRING_BOOT_PLUGIN_ID) {
