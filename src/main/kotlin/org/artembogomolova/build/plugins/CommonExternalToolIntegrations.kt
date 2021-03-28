@@ -28,7 +28,9 @@ private class SonarApplier : PluginApplier<SonarQubePlugin>(SonarQubePlugin::cla
 
     override fun configureProperties(properties: MutableMap<String, Any>, target: Project) {
         super.configureProperties(properties, target)
-        properties[PROJECT_KEY_PROPERTY] = target.rootProject.name
+        if (!target.hasProperty(PROJECT_KEY_PROPERTY)) {
+            properties[PROJECT_KEY_PROPERTY] = target.rootProject.name
+        }
         properties[PROJECT_NAME_PROPERTY] = target.rootProject.name
     }
 

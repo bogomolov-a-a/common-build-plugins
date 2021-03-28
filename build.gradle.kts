@@ -55,6 +55,8 @@ compileTestKotlin.kotlinOptions {
 }
 /*plugin ids*/
 val COMMON_BUILD_PLUGIN_ID = "common-build-plugin"
+val COMMON_BUILD_BASE_PLUGIN_ID = "common-no-ext-tool-build-plugin"
+val COMMON_BASE_PLUGIN_ID = "common-base-plugin"
 val COMMON_SPRING_BOOT_WEB_PLUGIN_ID = "common-spring-boot-web-plugin"
 val CORE_SPRING_BOOT_PLUGIN_ID = "core-spring-boot-plugin"
 val COMMON_SPRING_BOOT_TEST_PLUGIN_ID = "common-spring-boot-test-plugin"
@@ -62,9 +64,22 @@ gradlePlugin {
     plugins {
         create(COMMON_BUILD_PLUGIN_ID) {
             id = COMMON_BUILD_PLUGIN_ID
-            displayName = "Kotlin/Java Common build plugin"
-            description = "Common build plugin for Java or Kotlin projects"
+            displayName = "Kotlin/Java Common build plugin, extended"
+            description = "Common build plugin for Java or Kotlin projects(with extern tool integration)"
             implementationClass = "org.artembogomolova.build.plugins.CommonBuildPlugin"
+        }
+
+        create(COMMON_BASE_PLUGIN_ID) {
+            id = COMMON_BASE_PLUGIN_ID
+            displayName = "Common base plugin(with extern tool integration)"
+            description = "Common base plugin(with extern tool integration)"
+            implementationClass = "org.artembogomolova.build.plugins.CommonBasePlugin"
+        }
+
+        create(COMMON_BUILD_BASE_PLUGIN_ID) {
+            id = COMMON_BUILD_BASE_PLUGIN_ID
+            displayName = "Common base plugin(without extern tool integration)"
+            implementationClass = "org.artembogomolova.build.plugins.CommonBuildWithoutExternToolPlugin"
         }
         create(CORE_SPRING_BOOT_PLUGIN_ID) {
             id = CORE_SPRING_BOOT_PLUGIN_ID
@@ -86,21 +101,17 @@ gradlePlugin {
         }
     }
 }
-val mavenPackageRegistryUri: String? = System.getenv("MAVEN_PACKAGE_REGISTRY_URL") + System.getenv("GITHUB_REPOSITORY")
+val mavenPackageRegistryUri: String = System.getenv("MAVEN_PACKAGE_REGISTRY_URL") + System.getenv("GITHUB_REPOSITORY")
+
 val publicationName = "gpr"
 publishing {
     repositories {
-        if (null != mavenPackageRegistryUri) {
-            println(mavenPackageRegistryUri)
-            maven {
-                url = URI(mavenPackageRegistryUri)
-                credentials {
-                    username = System.getenv("USERNAME")
-                    password = System.getenv("TOKEN")
-                }
+        maven {
+            url = URI(mavenPackageRegistryUri)
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
             }
-        } else {
-            mavenLocal()
         }
     }
     publications {
@@ -109,12 +120,11 @@ publishing {
         }
     }
 }
-if (null != mavenPackageRegistryUri) {
 /*ignore*/
-    tasks.named<Task>("publish${publicationName[0].toUpperCase() + publicationName.substring(1)}PublicationToMavenRepository") {
-        enabled = false
-    }
+tasks.named<Task>("publish${publicationName[0].toUpperCase() + publicationName.substring(1)}PublicationToMavenRepository") {
+    enabled = false
 }
+
 
 fun getProjectVersion(): String {
     val projectVersion: String? = System.getenv("GITHUB_REF")
@@ -129,7 +139,7 @@ fun getProjectVersion(): String {
             val HEADS_PREFIX = "refs/heads/"
             val headsIndex = projectVersion.indexOf(HEADS_PREFIX)
             /*branch-commit_sha*/
-            projectVersion.substring(headsIndex + HEADS_PREFIX.length)+"-"+System.getenv("GITHUB_SHA")
+            projectVersion.substring(headsIndex + HEADS_PREFIX.length) + "-" + System.getenv("GITHUB_SHA")
         }
     }
 
