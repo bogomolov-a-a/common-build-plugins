@@ -1,6 +1,7 @@
 package org.artembogomolova.build.plugins
 
-import org.artembogomolova.build.plugins.CodeCoveragePlugin.Companion.JACOCO_XML_REPORT_FILE_PATH
+import java.io.File
+import java.math.BigDecimal
 import org.artembogomolova.build.utils.excludeGeneratedModelClasses
 import org.artembogomolova.build.utils.findCoverageClasses
 import org.gradle.api.Plugin
@@ -18,13 +19,8 @@ import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jacoco.core.analysis.ICounter
 import org.jacoco.core.analysis.ICoverageNode
-import java.io.File
-import java.math.BigDecimal
 
 internal class CodeCoveragePlugin : Plugin<Project> {
-    companion object {
-        const val JACOCO_XML_REPORT_FILE_PATH = "%s/reports/jacoco/jacoco.xml"
-    }
 
     private val jacocoPluginApplier: JacocoPluginApplier = JacocoPluginApplier()
     override fun apply(target: Project) {
@@ -41,6 +37,7 @@ private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::cl
         const val CLASS_DUMP_DIR_PROPERTY_NAME = "classDumpDir"
         const val COVERAGE_RATIO_MINIMUM = 0.949
         const val NO_TEST_FOUND_MESSAGE = "Error occurred test execute: no tests found!"
+        const val JACOCO_XML_REPORT_FILE_PATH = "%s/reports/jacoco/jacoco.xml"
 
     }
 
@@ -58,7 +55,6 @@ private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::cl
     }
 
     private fun configureJacocoTestIntegrationTask(target: TaskContainer, properties: MutableMap<String, Any>) {
-
 
         target.withType(Test::class.java) {
 

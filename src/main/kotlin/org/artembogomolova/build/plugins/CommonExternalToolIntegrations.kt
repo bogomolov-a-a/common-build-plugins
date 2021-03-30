@@ -1,5 +1,6 @@
 package org.artembogomolova.build.plugins
 
+import java.nio.charset.StandardCharsets
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionContainer
@@ -24,6 +25,14 @@ private class SonarApplier : PluginApplier<SonarQubePlugin>(SonarQubePlugin::cla
         const val PROJECT_NAME_PROPERTY = "sonar.projectName"
         const val LANGUAGE_PROPERTY = "sonar.language"
         const val VERBOSE_PROPERTY = "sonar.verbose"
+        const val SOURCE_ENCODING_PROPERTY = "sonar.sourceEncoding"
+        const val CHECKSTYLE_REPORT_PATH_PROPERTY = "sonar.java.checkstyle.reportPaths"
+        const val PMD_REPORT_PATH_PROPERTY = "sonar.java.pmd.reportPaths"
+        const val SPOTBUGS_REPORT_PATH_PROPERTY = "sonar.java.spotbugs.reportPaths"
+        const val DETEKT_REPORT_PATH_PROPERTY = "sonar.kotlin.detekt.reportPaths"
+        const val JACOCO_REPORT_PATH_PROPERTY = "sonar.coverage.jacoco.xmlReportPaths"
+        const val REPORT_PATH_PATTERN = "build/reports/%s"
+        const val PATH_COMMA_SEPARATED_LIST_PATTERN = "%s,%s"
     }
 
     override fun configureProperties(properties: MutableMap<String, Any>, target: Project) {
@@ -51,6 +60,27 @@ private class SonarApplier : PluginApplier<SonarQubePlugin>(SonarQubePlugin::cla
                 property(ORGANIZATION_PROPERTY, properties[ORGANIZATION_PROPERTY] as String)
                 property(LANGUAGE_PROPERTY, KOTLIN_LANGUAGE_NAME)
                 property(VERBOSE_PROPERTY, true.toString())
+                property(SOURCE_ENCODING_PROPERTY, StandardCharsets.UTF_8.name())
+                val checkStyleReportPaths = PATH_COMMA_SEPARATED_LIST_PATTERN.format(
+                    REPORT_PATH_PATTERN.format("checkstyle/main.xml"),
+                    REPORT_PATH_PATTERN.format("checkstyle/test.xml")
+                )
+                property(CHECKSTYLE_REPORT_PATH_PROPERTY, checkStyleReportPaths)
+                val pmdReportPaths = PATH_COMMA_SEPARATED_LIST_PATTERN.format(
+                    REPORT_PATH_PATTERN.format("pmd/main.xml"),
+                    REPORT_PATH_PATTERN.format("pmd/test.xml")
+                )
+                val detektReportPath = REPORT_PATH_PATTERN.format("detekt/detekt.xml")
+                property(DETEKT_REPORT_PATH_PROPERTY, detektReportPath)
+                property(PMD_REPORT_PATH_PROPERTY, pmdReportPaths)
+                val spotbugsReportPaths = PATH_COMMA_SEPARATED_LIST_PATTERN.format(
+                    REPORT_PATH_PATTERN.format("spotbugs/main.xml"),
+                    REPORT_PATH_PATTERN.format("spotbugs/test.xml")
+                )
+                property(SPOTBUGS_REPORT_PATH_PROPERTY, spotbugsReportPaths)
+                val jacocoReportPath = REPORT_PATH_PATTERN.format("jacoco/jacoco.xml")
+                property(JACOCO_REPORT_PATH_PROPERTY, jacocoReportPath)
+
             }
         }
     }
