@@ -1,12 +1,10 @@
 package org.artembogomolova.build.tasks
 
-import com.github.spotbugs.snom.SpotBugsTask
-import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Project
+import org.gradle.api.Task
 import org.gradle.api.internal.ConventionTask
+import org.gradle.api.plugins.BasePlugin
 import org.gradle.api.plugins.JavaBasePlugin
-import org.gradle.api.plugins.quality.Checkstyle
-import org.gradle.api.plugins.quality.Pmd
 import org.gradle.api.tasks.TaskAction
 import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
 import org.gradle.testing.jacoco.tasks.JacocoMerge
@@ -38,10 +36,13 @@ open class BuildWithCoverage : ConventionTask() {
 
     private fun addSonarSpecifiedTasks() {
         dependsOn.add(SonarQubeExtension.SONARQUBE_TASK_NAME)
-        dependsOn.add(project.tasks.withType(Pmd::class.java))
-        dependsOn.add(project.tasks.withType(Checkstyle::class.java))
-        dependsOn.add(project.tasks.withType(Detekt::class.java))
-        dependsOn.add(project.tasks.withType(SpotBugsTask::class.java))
+        val subprojectBuildTaskCollection = mutableListOf<Task>()
+        project.subprojects.forEach {
+            subprojectBuildTaskCollection.add(it.tasks.getByName(BasePlugin.BUILD_GROUP))
+        }
+        project.tasks.getByName(SonarQubeExtension.SONARQUBE_TASK_NAME) {
+            dependsOn.addAll(subprojectBuildTaskCollection)
+        }
     }
 
     private fun addBasicDependTasks() {
