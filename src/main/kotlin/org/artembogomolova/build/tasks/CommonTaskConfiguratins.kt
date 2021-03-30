@@ -1,6 +1,5 @@
 package org.artembogomolova.build.tasks
 
-import com.github.spotbugs.snom.SpotBugsPlugin
 import com.github.spotbugs.snom.SpotBugsTask
 import io.gitlab.arturbosch.detekt.Detekt
 import org.gradle.api.Project
@@ -58,7 +57,7 @@ open class BuildWithCoverage : ConventionTask() {
         }
     }
 
-    private fun isAllowSonarUse(): Boolean = project.tasks.findByName(SonarQubeExtension.SONARQUBE_TASK_NAME) != null
+    private fun isAllowSonarUse(): Boolean = project.rootProject == project
 
     @TaskAction
     fun execute() {
