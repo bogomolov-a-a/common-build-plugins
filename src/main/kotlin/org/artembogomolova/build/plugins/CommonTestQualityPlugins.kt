@@ -38,7 +38,7 @@ private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::cl
         const val JUNIT_DEPENDENCY = "org.junit.jupiter:junit-jupiter:5.+"
         const val MOCKITO_VERSION = "3.+"
         const val MOCKITO_CORE_DEPENDENCY = "org.mockito:mockito-core:$MOCKITO_VERSION"
-        const val MOCKITO_JUNIT_DEPENDENCY = "org.mockito-junit-jupiter:$MOCKITO_VERSION"
+        const val MOCKITO_JUNIT_DEPENDENCY = "org.mockito:mockito-junit-jupiter:$MOCKITO_VERSION"
 
     }
 
