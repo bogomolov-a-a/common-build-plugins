@@ -1,24 +1,21 @@
 package org.artembogomolova.build.plugins
 
-import java.io.File
-import java.math.BigDecimal
 import org.artembogomolova.build.utils.excludeGeneratedModelClasses
 import org.artembogomolova.build.utils.findCoverageClasses
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.TaskContainer
-import org.gradle.api.tasks.testing.Test
-import org.gradle.api.tasks.testing.TestDescriptor
-import org.gradle.api.tasks.testing.TestListener
-import org.gradle.api.tasks.testing.TestOutputEvent
-import org.gradle.api.tasks.testing.TestOutputListener
-import org.gradle.api.tasks.testing.TestResult
+import org.gradle.api.tasks.testing.*
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jacoco.core.analysis.ICounter
 import org.jacoco.core.analysis.ICoverageNode
+import java.io.File
+import java.math.BigDecimal
 
 internal class CodeCoveragePlugin : Plugin<Project> {
 
@@ -38,6 +35,7 @@ private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::cl
         const val COVERAGE_RATIO_MINIMUM = 0.949
         const val NO_TEST_FOUND_MESSAGE = "Error occurred test execute: no tests found!"
         const val JACOCO_XML_REPORT_FILE_PATH = "%s/reports/jacoco/jacoco.xml"
+        const val JUNIT_DEPENDENCY_NOTATION = "org.junit.jupiter:junit-jupiter:5.+"
 
     }
 
@@ -45,6 +43,12 @@ private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::cl
         super.configureProperties(properties, target)
         properties[CLASS_DUMP_DIR_PROPERTY_NAME] = CLASS_DUMP_DIR_RELATIVE_PATH.format(properties[BUILD_DIR_PATH_PROPERTY_NAME])
         properties[JACOCO_XML_REPORT_FILE_PROPERTY_NAME] = JACOCO_XML_REPORT_FILE_PATH.format(properties[BUILD_DIR_PATH_PROPERTY_NAME])
+    }
+
+    override fun configureDependencies(target: DependencyHandler, properties: MutableMap<String, Any>) {
+        super.configureDependencies(target, properties)
+        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, JUNIT_DEPENDENCY_NOTATION)
+
     }
 
     override fun configureTasks(target: TaskContainer, properties: MutableMap<String, Any>) {
@@ -68,7 +72,6 @@ private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::cl
                 }
                 extensions.configure(JacocoTaskExtension::class.java) {
                     this.classDumpDir = File(properties[CLASS_DUMP_DIR_PROPERTY_NAME] as String)
-
                 }
             }
             addTestListener(object : TestListener {
