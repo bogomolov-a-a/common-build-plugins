@@ -35,7 +35,10 @@ private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::cl
         const val COVERAGE_RATIO_MINIMUM = 0.949
         const val NO_TEST_FOUND_MESSAGE = "Error occurred test execute: no tests found!"
         const val JACOCO_XML_REPORT_FILE_PATH = "%s/reports/jacoco/jacoco.xml"
-        const val JUNIT_DEPENDENCY_NOTATION = "org.junit.jupiter:junit-jupiter:5.+"
+        const val JUNIT_DEPENDENCY = "org.junit.jupiter:junit-jupiter:5.+"
+        const val MOCKITO_VERSION = "3.+"
+        const val MOCKITO_CORE_DEPENDENCY = "org.mockito:mockito-core:$MOCKITO_VERSION"
+        const val MOCKITO_JUNIT_DEPENDENCY = "org.mockito-junit-jupiter:$MOCKITO_VERSION"
 
     }
 
@@ -47,8 +50,9 @@ private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::cl
 
     override fun configureDependencies(target: DependencyHandler, properties: MutableMap<String, Any>) {
         super.configureDependencies(target, properties)
-        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, JUNIT_DEPENDENCY_NOTATION)
-
+        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, JUNIT_DEPENDENCY)
+        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, MOCKITO_CORE_DEPENDENCY)
+        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, MOCKITO_JUNIT_DEPENDENCY)
     }
 
     override fun configureTasks(target: TaskContainer, properties: MutableMap<String, Any>) {
