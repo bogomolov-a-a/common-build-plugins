@@ -1,5 +1,7 @@
 package org.artembogomolova.build.plugins
 
+import java.io.File
+import java.math.BigDecimal
 import org.artembogomolova.build.utils.excludeGeneratedModelClasses
 import org.artembogomolova.build.utils.findCoverageClasses
 import org.gradle.api.Plugin
@@ -7,15 +9,18 @@ import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.tasks.TaskContainer
-import org.gradle.api.tasks.testing.*
+import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.TestDescriptor
+import org.gradle.api.tasks.testing.TestListener
+import org.gradle.api.tasks.testing.TestOutputEvent
+import org.gradle.api.tasks.testing.TestOutputListener
+import org.gradle.api.tasks.testing.TestResult
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
 import org.gradle.testing.jacoco.tasks.JacocoCoverageVerification
 import org.gradle.testing.jacoco.tasks.JacocoReport
 import org.jacoco.core.analysis.ICounter
 import org.jacoco.core.analysis.ICoverageNode
-import java.io.File
-import java.math.BigDecimal
 
 internal class CodeCoveragePlugin : Plugin<Project> {
 
@@ -39,7 +44,7 @@ private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::cl
         const val MOCKITO_VERSION = "3.+"
         const val MOCKITO_CORE_DEPENDENCY = "org.mockito:mockito-core:$MOCKITO_VERSION"
         const val MOCKITO_JUNIT_DEPENDENCY = "org.mockito:mockito-junit-jupiter:$MOCKITO_VERSION"
-
+        const val MOCKITO_JUNIT_KOTLIN_DEPENDENCY = "org.mockito.kotlin:mockito-junit-jupiter:$MOCKITO_VERSION"
     }
 
     override fun configureProperties(properties: MutableMap<String, Any>, target: Project) {
@@ -53,6 +58,7 @@ private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::cl
         target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, JUNIT_DEPENDENCY)
         target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, MOCKITO_CORE_DEPENDENCY)
         target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, MOCKITO_JUNIT_DEPENDENCY)
+        target.add(JavaPlugin.TEST_IMPLEMENTATION_CONFIGURATION_NAME, MOCKITO_JUNIT_KOTLIN_DEPENDENCY)
     }
 
     override fun configureTasks(target: TaskContainer, properties: MutableMap<String, Any>) {
