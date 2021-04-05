@@ -44,7 +44,7 @@ private class JacocoPluginApplier : PluginApplier<JacocoPlugin>(JacocoPlugin::cl
         const val MOCKITO_VERSION = "3.+"
         const val MOCKITO_CORE_DEPENDENCY = "org.mockito:mockito-core:$MOCKITO_VERSION"
         const val MOCKITO_JUNIT_DEPENDENCY = "org.mockito:mockito-junit-jupiter:$MOCKITO_VERSION"
-        const val MOCKITO_JUNIT_KOTLIN_DEPENDENCY = "org.mockito.kotlin:mockito-junit-jupiter:$MOCKITO_VERSION"
+        const val MOCKITO_JUNIT_KOTLIN_DEPENDENCY = "org.mockito.kotlin:mockito-kotlin:$MOCKITO_VERSION"
     }
 
     override fun configureProperties(properties: MutableMap<String, Any>, target: Project) {
