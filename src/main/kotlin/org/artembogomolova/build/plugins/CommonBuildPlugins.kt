@@ -56,7 +56,6 @@ internal class RepositoryApplier : Plugin<Project> {
     override fun apply(target: Project) {
         target.repositories.add(target.repositories.mavenCentral())
         target.repositories.add(target.repositories.gradlePluginPortal())
-        target.repositories.add(target.repositories.jcenter())
     }
 
 }

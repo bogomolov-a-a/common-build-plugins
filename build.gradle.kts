@@ -2,7 +2,7 @@ import java.net.URI
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version ("1.4.20")
+    kotlin("jvm") version ("1.4.31")
     id("java")
     `kotlin-dsl`
     id("publishing")
@@ -11,7 +11,7 @@ plugins {
 group = "org.artembogomolova.common"
 version = getProjectVersion()
 println("project version is $version")
-val kotlinVersion = "1.4.20"
+val kotlinVersion = "1.4.31"
 val springBootVersion = "2.4.2"
 val springDependencyManagementVersion = "1.0.11.RELEASE"
 val classGraphVersion = "4.8.98"
@@ -19,12 +19,11 @@ val detektPluginVersion = "1.15.0"
 val spotbugsPluginVersion = "4.6.0"
 val jacocoVersion = "0.8.6"
 val sonarPluginVersion = "3.1"
-val dokkaVersion = kotlinVersion
+val dokkaVersion = "1.4.30"
 val javaVersion = "15"
 repositories {
     mavenCentral()
     gradlePluginPortal()
-    jcenter()
 }
 plugins.apply(org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper::class.java)
 dependencies {

@@ -11,7 +11,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 const val KOTLIN_LANGUAGE_NAME = "kotlin"
 const val KOTLIN_VERSION_PROPERTY_NAME = "kotlinVersion"
-const val DEFAULT_KOTLIN_KOTLIN_OPTION_VALUE = "1.4.20"
+const val DEFAULT_KOTLIN_KOTLIN_OPTION_VALUE = "1.4.31"
 const val KAPT_CONFIGURATION_NAME = "kapt"
 fun getKotlinVersion(properties: MutableMap<String, Any>): String =
     properties[KOTLIN_VERSION_PROPERTY_NAME] as String? ?: DEFAULT_KOTLIN_KOTLIN_OPTION_VALUE

@@ -33,6 +33,7 @@ private class PmdApplier : PluginApplier<PmdPlugin>(PmdPlugin::class.java) {
         configurePmdTask(target, properties)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun configurePmdTask(target: TaskContainer, properties: MutableMap<String, Any>) {
         target.withType(Pmd::class.java) {
             isConsoleOutput = true
@@ -48,6 +49,7 @@ private class CheckstyleApplier : PluginApplier<CheckstylePlugin>(CheckstylePlug
         configureCheckStyleTask(target, properties)
     }
 
+    @Suppress("UNUSED_PARAMETER")
     private fun configureCheckStyleTask(target: TaskContainer, properties: MutableMap<String, Any>) {
         target.withType(Checkstyle::class.java) {
             isIgnoreFailures = false
