@@ -59,6 +59,7 @@ val COMMON_BASE_PLUGIN_ID = "common-base-plugin"
 val COMMON_SPRING_BOOT_WEB_PLUGIN_ID = "common-spring-boot-web-plugin"
 val CORE_SPRING_BOOT_PLUGIN_ID = "core-spring-boot-plugin"
 val COMMON_SPRING_BOOT_TEST_PLUGIN_ID = "common-spring-boot-test-plugin"
+val COMMON_KOTLIN_PLUGIN_ID="common-kotlin-language-plugin"
 gradlePlugin {
     plugins {
         create(COMMON_BUILD_PLUGIN_ID) {
@@ -67,14 +68,12 @@ gradlePlugin {
             description = "Common build plugin for Java or Kotlin projects(with extern tool integration)"
             implementationClass = "org.artembogomolova.build.plugins.CommonBuildPlugin"
         }
-
         create(COMMON_BASE_PLUGIN_ID) {
             id = COMMON_BASE_PLUGIN_ID
             displayName = "Common base plugin(with extern tool integration)"
             description = "Common base plugin(with extern tool integration)"
             implementationClass = "org.artembogomolova.build.plugins.CommonExternToolPlugin"
         }
-
         create(COMMON_BUILD_BASE_PLUGIN_ID) {
             id = COMMON_BUILD_BASE_PLUGIN_ID
             displayName = "Common base plugin(without extern tool integration)"
@@ -99,6 +98,13 @@ gradlePlugin {
             description = "Spring boot test plugin for Java or Kotlin projects"
             implementationClass = "org.artembogomolova.build.plugins.SpringBootTestPlugin"
         }
+		create(COMMON_KOTLIN_PLUGIN_ID)
+		{
+			id=COMMON_KOTLIN_PLUGIN_ID
+			displayName = "Kotlin build plugin"
+            description = "Common build plugin for Kotlin projects"          
+			implementationClass="org.artembogomolova.build.plugins.KotlinPluginApplier"
+		}
     }
 }
 val mavenPackageRegistryUri: String = System.getenv("MAVEN_PACKAGE_REGISTRY_URL") + System.getenv("GITHUB_REPOSITORY")

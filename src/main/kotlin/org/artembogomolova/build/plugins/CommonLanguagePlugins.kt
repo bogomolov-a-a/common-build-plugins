@@ -25,7 +25,7 @@ internal class ProjectLanguagesPlugin : Plugin<Project> {
 
 }
 
-private class KotlinPluginApplier : PluginApplier<KotlinPluginWrapper>(KotlinPluginWrapper::class.java) {
+class KotlinPluginApplier : PluginApplier<KotlinPluginWrapper>(KotlinPluginWrapper::class.java) {
     companion object {
         const val JVM_TARGET_VERSION_PROPERTY_NAME = "jvmTargetVersion"
         const val DEFAULT_JVM_TARGET_KOTLIN_OPTION_VALUE = "11"
