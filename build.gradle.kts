@@ -21,9 +21,12 @@ val jacocoVersion = "0.8.6"
 val sonarPluginVersion = "3.1"
 val dokkaVersion = "1.4.30"
 val javaVersion = "15"
+val androidBuildToolsPluginVersion = "4.1.1"
+val navigationSafeArgsPluginVersion = "2.3.5"
 repositories {
     mavenCentral()
     gradlePluginPortal()
+    google()
 }
 plugins.apply(org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper::class.java)
 dependencies {
@@ -43,6 +46,8 @@ dependencies {
     api("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$sonarPluginVersion")
 /*documentation*/
     api("org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion")
+    api("com.android.tools.build:gradle:$androidBuildToolsPluginVersion")
+    api("androidx.navigation:navigation-safe-args-gradle-plugin:$navigationSafeArgsPluginVersion")
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
@@ -59,7 +64,9 @@ val COMMON_BASE_PLUGIN_ID = "common-base-plugin"
 val COMMON_SPRING_BOOT_WEB_PLUGIN_ID = "common-spring-boot-web-plugin"
 val CORE_SPRING_BOOT_PLUGIN_ID = "core-spring-boot-plugin"
 val COMMON_SPRING_BOOT_TEST_PLUGIN_ID = "common-spring-boot-test-plugin"
-val COMMON_KOTLIN_PLUGIN_ID="common-kotlin-language-plugin"
+val COMMON_KOTLIN_PLUGIN_ID = "common-kotlin-language-plugin"
+val COMMON_ANDROID_APP_PLUGIN = "common-android-app-plugin"
+val COMMON_ANDROID_LIB_PLUGIN = "common-android-lib-plugin"
 gradlePlugin {
     plugins {
         create(COMMON_BUILD_PLUGIN_ID) {
@@ -98,13 +105,25 @@ gradlePlugin {
             description = "Spring boot test plugin for Java or Kotlin projects"
             implementationClass = "org.artembogomolova.build.plugins.SpringBootTestPlugin"
         }
-		create(COMMON_KOTLIN_PLUGIN_ID)
-		{
-			id=COMMON_KOTLIN_PLUGIN_ID
-			displayName = "Kotlin build plugin"
-            description = "Common build plugin for Kotlin projects"          
-			implementationClass="org.artembogomolova.build.plugins.KotlinPluginApplier"
-		}
+        create(COMMON_KOTLIN_PLUGIN_ID)
+        {
+            id = COMMON_KOTLIN_PLUGIN_ID
+            displayName = "Kotlin build plugin"
+            description = "Common build plugin for Kotlin projects"
+            implementationClass = "org.artembogomolova.build.plugins.KotlinPluginApplier"
+        }
+        create(COMMON_ANDROID_APP_PLUGIN) {
+            id = COMMON_ANDROID_APP_PLUGIN
+            displayName = "Android app common plugin"
+            description = "Android app common plugin"
+            implementationClass = "org.artembogomolova.build.plugins.android.CommonAndroidApplicationPlugin"
+        }
+        create(COMMON_ANDROID_LIB_PLUGIN) {
+            id = COMMON_ANDROID_LIB_PLUGIN
+            displayName = "Android lib common plugin"
+            description = "Android lib common plugin"
+            implementationClass = "org.artembogomolova.build.plugins.android.CommonAndroidLibraryPlugin"
+        }
     }
 }
 val mavenPackageRegistryUri: String = System.getenv("MAVEN_PACKAGE_REGISTRY_URL") + System.getenv("GITHUB_REPOSITORY")
