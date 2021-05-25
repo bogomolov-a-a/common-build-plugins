@@ -14,7 +14,9 @@ import com.android.build.api.variant.Variant
 import com.android.build.api.variant.VariantProperties
 import java.nio.charset.StandardCharsets
 import org.artembogomolova.build.plugins.BUILD_DIR_PATH_PROPERTY_NAME
+import org.artembogomolova.build.plugins.DetektApplier
 import org.artembogomolova.build.plugins.PluginApplier
+import org.artembogomolova.build.plugins.SpotBugsApplier
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.artifacts.dsl.DependencyHandler
@@ -62,7 +64,6 @@ abstract class CommonAndroidPlugin<T : Plugin<out Any>>(clazz: Class<T>) : Plugi
     final override fun configureExtensions(target: ExtensionContainer, properties: MutableMap<String, Any>) {
         super.configureExtensions(target, properties)
         configureAndroidExtension(target, properties)
-
     }
 
     private fun configureAndroidExtension(target: ExtensionContainer, properties: MutableMap<String, Any>) {
@@ -145,8 +146,10 @@ abstract class CommonAndroidPlugin<T : Plugin<out Any>>(clazz: Class<T>) : Plugi
 
     override fun applyAdditionalPlugins(plugins: PluginContainer, properties: MutableMap<String, Any>) {
         super.applyAdditionalPlugins(plugins, properties)
-        plugins.apply(COMMON_KOTLIN_PLUGIN_ID)
         plugins.apply(KOTLIN_ANDROID_PLUGIN_ID)
+        /*for all project static analysis plugins*/
+        plugins.apply(DetektApplier::class.java)
+        plugins.apply(SpotBugsApplier::class.java)
     }
 
     protected fun configureJacoco(jacoco: JacocoOptions, properties: Map<String, Any>) {

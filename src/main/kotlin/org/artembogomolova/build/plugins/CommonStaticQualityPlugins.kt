@@ -58,7 +58,7 @@ private class CheckstyleApplier : PluginApplier<CheckstylePlugin>(CheckstylePlug
     }
 }
 
-private class DetektApplier : PluginApplier<DetektPlugin>(DetektPlugin::class.java) {
+class DetektApplier : PluginApplier<DetektPlugin>(DetektPlugin::class.java) {
     companion object {
         const val SETTINGS_PATH = "%s/config/detekt/detekt.yml"
     }
@@ -83,7 +83,7 @@ private class DetektApplier : PluginApplier<DetektPlugin>(DetektPlugin::class.ja
 }
 
 
-private class SpotBugsApplier : PluginApplier<SpotBugsPlugin>(SpotBugsPlugin::class.java) {
+class SpotBugsApplier : PluginApplier<SpotBugsPlugin>(SpotBugsPlugin::class.java) {
     companion object {
         const val SETTINGS_PATH = "%s/config/spotbugs/excludes.xml"
     }
