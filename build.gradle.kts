@@ -23,6 +23,7 @@ val dokkaVersion = "1.4.30"
 val javaVersion = "15"
 val androidBuildToolsPluginVersion = "4.1.1"
 val navigationSafeArgsPluginVersion = "2.3.5"
+val mannodermausAndroidJunit5Version = "1.7.1.1"
 repositories {
     mavenCentral()
     gradlePluginPortal()
@@ -46,8 +47,10 @@ dependencies {
     api("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:$sonarPluginVersion")
 /*documentation*/
     api("org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion")
+    /*android*/
     api("com.android.tools.build:gradle:$androidBuildToolsPluginVersion")
     api("androidx.navigation:navigation-safe-args-gradle-plugin:$navigationSafeArgsPluginVersion")
+    api("de.mannodermaus.gradle.plugins:android-junit5:${mannodermausAndroidJunit5Version}")
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
@@ -67,6 +70,7 @@ val COMMON_SPRING_BOOT_TEST_PLUGIN_ID = "common-spring-boot-test-plugin"
 val COMMON_KOTLIN_PLUGIN_ID = "common-kotlin-language-plugin"
 val COMMON_ANDROID_APP_PLUGIN = "common-android-app-plugin"
 val COMMON_ANDROID_LIB_PLUGIN = "common-android-lib-plugin"
+val COMMON_SONAR_PLUGIN_ID = "common-sonar-plugin"
 gradlePlugin {
     plugins {
         create(COMMON_BUILD_PLUGIN_ID) {
@@ -123,6 +127,10 @@ gradlePlugin {
             displayName = "Android lib common plugin"
             description = "Android lib common plugin"
             implementationClass = "org.artembogomolova.build.plugins.android.CommonAndroidLibraryPlugin"
+        }
+        create(COMMON_SONAR_PLUGIN_ID) {
+            id = COMMON_SONAR_PLUGIN_ID
+            implementationClass = "org.artembogomolova.build.plugins.SonarApplier"
         }
     }
 }

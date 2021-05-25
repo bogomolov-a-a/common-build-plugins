@@ -15,7 +15,7 @@ internal class ExternalToolIntegrationPlugin : Plugin<Project> {
     }
 }
 
-private class SonarApplier : PluginApplier<SonarQubePlugin>(SonarQubePlugin::class.java) {
+class SonarApplier : PluginApplier<SonarQubePlugin>(SonarQubePlugin::class.java) {
 
     companion object {
         const val PROJECT_KEY_PROPERTY = "sonar.projectKey"
