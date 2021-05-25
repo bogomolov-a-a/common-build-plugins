@@ -36,6 +36,7 @@ class CommonAndroidApplicationPlugin : CommonAndroidPlugin<AppPlugin>(AppPlugin:
             configureBuildTypes(buildTypes, properties)
             configureProductFlavors(productFlavors, properties)
             configureJacoco(jacoco, properties)
+            flavorDimensions.add(PRODUCT_FLAVOR_VERSION_DIMENSION)
         }
     }
 
