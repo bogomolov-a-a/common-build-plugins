@@ -92,7 +92,7 @@ abstract class CommonAndroidPlugin<T : Plugin<out Any>>(clazz: Class<T>) : Plugi
         with(extension) {
             configureCompileOptions(compileOptions)
             buildToolsVersion = properties[BUILD_TOOLS_VERSION_PROP] as String
-            compileSdk = properties[COMPILE_SDK_PROP] as Int
+            compileSdk = Integer.valueOf(properties[COMPILE_SDK_PROP] as String)
             configureDefaultConfig(defaultConfig, properties)
             configureLintOptions(lintOptions, properties)
         }

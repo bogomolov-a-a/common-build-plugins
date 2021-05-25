@@ -76,7 +76,7 @@ class CommonAndroidApplicationPlugin : CommonAndroidPlugin<AppPlugin>(AppPlugin:
     ) {
         with(defaultConfig) {
             multiDexEnabled = true
-            targetSdk = properties[TARGET_SDK_PROP] as Int
+            targetSdk = Integer.valueOf(properties[TARGET_SDK_PROP] as String)
             applicationId = properties[APPLICATION_ID_PROP] as String
         }
     }
