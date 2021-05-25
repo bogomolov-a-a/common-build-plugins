@@ -51,6 +51,7 @@ class CommonAndroidApplicationPlugin : CommonAndroidPlugin<AppPlugin>(AppPlugin:
                 applicationIdSuffix = ".$PRODUCT_FLAVOR_FREE"
                 versionNameSuffix = "-$PRODUCT_FLAVOR_FREE"
                 dimension = PRODUCT_FLAVOR_VERSION_DIMENSION
+                isDefault = true
             }
             create(PRODUCT_FLAVOR_PAYED) {
                 applicationIdSuffix = ".$PRODUCT_FLAVOR_PAYED"
@@ -69,7 +70,6 @@ class CommonAndroidApplicationPlugin : CommonAndroidPlugin<AppPlugin>(AppPlugin:
             getByName(BUILD_TYPE_DEBUG) {
                 isMinifyEnabled = false
                 isDefault = true
-                isTestCoverageEnabled = true
             }
         }
     }
