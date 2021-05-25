@@ -44,14 +44,17 @@ class CommonAndroidApplicationPlugin : CommonAndroidPlugin<AppPlugin>(AppPlugin:
             create(PRODUCT_FLAVOR_DEMO) {
                 applicationIdSuffix = ".$PRODUCT_FLAVOR_DEMO"
                 versionNameSuffix = "-$PRODUCT_FLAVOR_DEMO"
+                dimension = PRODUCT_FLAVOR_VERSION_DIMENSION
             }
             create(PRODUCT_FLAVOR_FREE) {
                 applicationIdSuffix = ".$PRODUCT_FLAVOR_FREE"
                 versionNameSuffix = "-$PRODUCT_FLAVOR_FREE"
+                dimension = PRODUCT_FLAVOR_VERSION_DIMENSION
             }
             create(PRODUCT_FLAVOR_PAYED) {
                 applicationIdSuffix = ".$PRODUCT_FLAVOR_PAYED"
                 versionNameSuffix = "-$PRODUCT_FLAVOR_PAYED"
+                dimension = PRODUCT_FLAVOR_VERSION_DIMENSION
             }
         }
     }

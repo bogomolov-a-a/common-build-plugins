@@ -35,6 +35,7 @@ abstract class CommonAndroidPlugin<T : Plugin<out Any>>(clazz: Class<T>) : Plugi
         const val PRODUCT_FLAVOR_DEMO = "demo"
         const val PRODUCT_FLAVOR_FREE = "free"
         const val PRODUCT_FLAVOR_PAYED = "payed"
+        const val PRODUCT_FLAVOR_VERSION_DIMENSION = "version"
 
         /*other plugin ids*/
         const val COMMON_KOTLIN_PLUGIN_ID = "common-kotlin-language-plugin"
