@@ -112,7 +112,7 @@ abstract class CommonAndroidPlugin<T : Plugin<out Any>>(clazz: Class<T>) : Plugi
 
     private fun configureDefaultConfig(defaultConfig: DefaultConfig, properties: MutableMap<String, Any>) {
         with(defaultConfig) {
-            minSdk = properties[MIN_SDK_PROP] as Int
+            minSdk = Integer.valueOf(properties[MIN_SDK_PROP] as String)
             proguardFiles(
                 PROGUARD_RULES_FILE_PATTERN.format(properties[BUILD_DIR_PATH_PROPERTY_NAME])
             )
