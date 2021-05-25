@@ -58,11 +58,11 @@ class CommonAndroidApplicationPlugin : CommonAndroidPlugin<AppPlugin>(AppPlugin:
 
     private fun configureBuildTypes(buildTypes: NamedDomainObjectContainer<ApplicationBuildType<SigningConfig>>, properties: Map<String, Any>) {
         with(buildTypes) {
-            create(BUILD_TYPE_RELEASE)
+            getByName(BUILD_TYPE_RELEASE)
             {
                 isMinifyEnabled = true
             }
-            create(BUILD_TYPE_DEBUG) {
+            getByName(BUILD_TYPE_DEBUG) {
                 isMinifyEnabled = false
                 isDefault = true
                 isTestCoverageEnabled = true

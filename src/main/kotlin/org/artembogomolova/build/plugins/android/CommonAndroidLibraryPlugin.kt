@@ -36,11 +36,11 @@ class CommonAndroidLibraryPlugin : CommonAndroidPlugin<LibraryPlugin>(LibraryPlu
 
     private fun configureBuildTypes(buildTypes: NamedDomainObjectContainer<LibraryBuildType<SigningConfig>>, properties: Map<String, Any>) {
         with(buildTypes) {
-            create(BUILD_TYPE_RELEASE)
+            getByName(BUILD_TYPE_RELEASE)
             {
                 isMinifyEnabled = true
             }
-            create(BUILD_TYPE_DEBUG) {
+            getByName(BUILD_TYPE_DEBUG) {
                 isMinifyEnabled = false
                 isTestCoverageEnabled = true
             }
