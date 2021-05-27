@@ -62,9 +62,9 @@ open class CommonAndroidUILibraryPlugin : CommonAndroidLibraryPlugin() {
         const val RECYCLE_VIEW_DEPENDENCY_NOTATION = "androidx.recyclerview:recyclerview:%s"
         const val RECYCLE_VIEW_DEPENDENCY_VERSION_PROP = "recycleViewVersion"
         const val CARD_VIEW_DEPENDENCY_NOTATION = "androidx.cardview:cardview:%s"
-        const val CARD_VIEW_DEPENDENCY_VERSION_PROP = "cardVisewVersion"
+        const val CARD_VIEW_DEPENDENCY_VERSION_PROP = "cardViewsVersion"
         const val SLIDING_PANEL_LAYOUT_DEPENDENCY_NOTATION = "androidx.slidingpanelayout:slidingpanelayout:%s"
-        const val SLIDING_PANEL_LAYOUT_DEPENDENCY_VERSION_PROP = "slidingPaneLayoutVersion"
+        const val SLIDING_PANEL_LAYOUT_DEPENDENCY_VERSION_PROP = "slidingPanelLayoutVersion"
     }
 
     override fun configureDependencies(target: DependencyHandler, properties: MutableMap<String, Any>) {

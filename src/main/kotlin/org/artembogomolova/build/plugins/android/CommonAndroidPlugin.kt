@@ -12,7 +12,6 @@ import com.android.build.api.dsl.ProductFlavor
 import com.android.build.api.dsl.SigningConfig
 import com.android.build.api.variant.Variant
 import com.android.build.api.variant.VariantProperties
-import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import java.nio.charset.StandardCharsets
 import org.artembogomolova.build.plugins.BUILD_DIR_PATH_PROPERTY_NAME
 import org.artembogomolova.build.plugins.DetektApplier
@@ -103,7 +102,6 @@ abstract class CommonAndroidPlugin<T : Plugin<out Any>>(clazz: Class<T>) : Plugi
             configureDefaultConfig(defaultConfig, properties)
             configureLintOptions(lintOptions, properties)
         }
-        extension as BaseAppModuleExtension
     }
 
     private fun configureLintOptions(lintOptions: LintOptions, properties: MutableMap<String, Any>) {
