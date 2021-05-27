@@ -12,6 +12,7 @@ import com.android.build.api.dsl.ProductFlavor
 import com.android.build.api.dsl.SigningConfig
 import com.android.build.api.variant.Variant
 import com.android.build.api.variant.VariantProperties
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import java.nio.charset.StandardCharsets
 import org.artembogomolova.build.plugins.BUILD_DIR_PATH_PROPERTY_NAME
 import org.artembogomolova.build.plugins.DetektApplier
@@ -21,6 +22,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.api.plugins.ExtensionContainer
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.PluginContainer
 
 abstract class CommonAndroidPlugin<T : Plugin<out Any>>(clazz: Class<T>) : PluginApplier<T>(clazz) {
@@ -52,6 +54,10 @@ abstract class CommonAndroidPlugin<T : Plugin<out Any>>(clazz: Class<T>) : Plugi
         const val JACOCO_VERSION_PROP = "jacocoVersion"
 
         /*dependency list*/
+        const val MULTIDEX_DEPENDENCY_VERSION_PROP = "multidexVersion"
+        const val MULTIDEX_DEPENDENCY_NOTATION = "androidx.multidex:multidex:%s"
+
+        /*tests*/
         const val JUNIT_VERSION_PROP = "junitVersion"
         const val TEST_JUNIT5_DEPENDENCY_NOTATION = "org.junit.jupiter:junit-jupiter-api:%s"
         const val ANDROIDX_TEST_RUNNER_VERSION_PROP = "androidTestRunnerVersion"
@@ -97,6 +103,7 @@ abstract class CommonAndroidPlugin<T : Plugin<out Any>>(clazz: Class<T>) : Plugi
             configureDefaultConfig(defaultConfig, properties)
             configureLintOptions(lintOptions, properties)
         }
+        extension as BaseAppModuleExtension
     }
 
     private fun configureLintOptions(lintOptions: LintOptions, properties: MutableMap<String, Any>) {
@@ -127,11 +134,14 @@ abstract class CommonAndroidPlugin<T : Plugin<out Any>>(clazz: Class<T>) : Plugi
             encoding = StandardCharsets.UTF_8.name()
             sourceCompatibility = JavaVersion.VERSION_1_8
             targetCompatibility = JavaVersion.VERSION_1_8
+
         }
     }
 
     override fun configureDependencies(target: DependencyHandler, properties: MutableMap<String, Any>) {
         super.configureDependencies(target, properties)
+        val multiDexDependency = MULTIDEX_DEPENDENCY_NOTATION.format(properties[MULTIDEX_DEPENDENCY_VERSION_PROP] as String)
+        target.add(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME, multiDexDependency)
         val junitVersion = properties[JUNIT_VERSION_PROP] as String
         val junitDependency = TEST_JUNIT5_DEPENDENCY_NOTATION.format(junitVersion)
         target.add(ANDROID_TEST_IMPLEMENTATION_CONFIGURATION, junitDependency)

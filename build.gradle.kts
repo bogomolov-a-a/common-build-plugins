@@ -71,6 +71,8 @@ val COMMON_KOTLIN_PLUGIN_ID = "common-kotlin-language-plugin"
 val COMMON_ANDROID_APP_PLUGIN = "common-android-app-plugin"
 val COMMON_ANDROID_LIB_PLUGIN = "common-android-lib-plugin"
 val COMMON_SONAR_PLUGIN_ID = "common-sonar-plugin"
+val COMMMON_ANDROID_UI_LIB_PLUGIN = "common-android-ui-plugin"
+val COMMMON_ANDROID_MENU_UI_LIB_PLUGIN = "common-android-menu-ui-plugin"
 gradlePlugin {
     plugins {
         create(COMMON_BUILD_PLUGIN_ID) {
@@ -131,6 +133,19 @@ gradlePlugin {
         create(COMMON_SONAR_PLUGIN_ID) {
             id = COMMON_SONAR_PLUGIN_ID
             implementationClass = "org.artembogomolova.build.plugins.SonarApplier"
+        }
+        create(COMMMON_ANDROID_UI_LIB_PLUGIN) {
+            id = COMMMON_ANDROID_UI_LIB_PLUGIN
+            displayName = "Android ui lib common plugin"
+            description = "Android ui lib common plugin"
+            implementationClass = "org.artembogomolova.build.plugins.android.CommonAndroidUILibraryPlugin"
+        }
+        create(COMMMON_ANDROID_MENU_UI_LIB_PLUGIN) {
+            id = COMMMON_ANDROID_MENU_UI_LIB_PLUGIN
+            displayName = "Android menu ui lib common plugin"
+            description = "Android menu ui lib common plugin"
+            implementationClass = "org.artembogomolova.build.plugins.android.AndroidMenuUILibraryPlugin"
+
         }
     }
 }
