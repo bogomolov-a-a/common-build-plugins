@@ -57,7 +57,7 @@ open class CommonAndroidUILibraryPlugin : CommonAndroidLibraryPlugin() {
         const val MATERIAL_DESIGN_MIKEPENZ_DRAWER_DEPENDENCY_VERSION_PROP = "materialDrawerVersion"
         const val APPCOMPAT_CORE_DEPENDENCY_NOTATION = "androidx.appcompat:appcompat:%s"
         const val APPCOMPAT_CORE_DEPENDENCY_VERSION_PROP = "appcompatVersion"
-        const val CONSTRAINT_LAYOUT_DEPENDENCY_NOTATION = "androidx.constraintlayout:constraintlayout"
+        const val CONSTRAINT_LAYOUT_DEPENDENCY_NOTATION = "androidx.constraintlayout:constraintlayout:%s"
         const val CONSTRAINT_LAYOUT_DEPENDENCY_VERSION_PROP = "constraintLayoutVersion"
         const val RECYCLE_VIEW_DEPENDENCY_NOTATION = "androidx.recyclerview:recyclerview:%s"
         const val RECYCLE_VIEW_DEPENDENCY_VERSION_PROP = "recycleViewVersion"
